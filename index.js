@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 const routes = require("./routes");
 const PORT = 8081;
-const REMOVEDB = true;
+const REMOVEDB = false;
 const path = require("path");
 
 // Initialize Database
