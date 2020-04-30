@@ -23,9 +23,7 @@ const SQLUsers =
 const SQLNotes =
   "CREATE TABLE Notes (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, content TEXT, userId INTEGER, deleted INTEGER DEFAULT 0, FOREIGN KEY(userId) REFERENCES Users(id));";
 const SQLCategories =
-  "CREATE TABLE Categories (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, color TEXT, userId INTEGER, deleted INTEGER DEFAULT 0, FOREIGN KEY(userId) REFERENCES Users(id));";
-const SQLTrash =
-  "CREATE TABLE Trash (id INTEGER PRIMARY KEY AUTOINCREMENT, type TEXT, itemId INTEGER, deleted INTEGER DEFAULT 0);";
+  "CREATE TABLE Categories (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, color TEXT, deleted INTEGER DEFAULT 0);";
 const SQLNotesCategories =
   "CREATE TABLE Notes_Categories (noteId INTEGER, categoryId INTEGER, FOREIGN KEY(noteId) REFERENCES Notes(id), FOREIGN KEY(categoryId) REFERENCES Categories(id));";
 
@@ -34,7 +32,6 @@ database.serialize(() => {
     database.run(SQLUsers);
     database.run(SQLNotes);
     database.run(SQLCategories);
-    database.run(SQLTrash);
     database.run(SQLNotesCategories);
   }
 });

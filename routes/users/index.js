@@ -1,4 +1,5 @@
 const users = require('express').Router();
+const notes = require('./notes');
 
 const SQLSelect = "SELECT id, name, firstName FROM Users WHERE deleted = 0";
 const SQLSelectSingle = "SELECT id, name, firstName FROM Users WHERE id = ? AND deleted = 0";
@@ -7,6 +8,8 @@ const SQLCheckUserDeleted = "SELECT id FROM Users WHERE id = ? AND deleted = 1";
 const SQLInsert = "INSERT INTO Users (name, firstName) VALUES (?, ?)";
 const SQLUpdate = "UPDATE Users SET name = ?, firstName = ? WHERE id = ?";
 const SQLDelete = "UPDATE Users SET deleted = 1 WHERE id = ?";
+
+users.use('/:userId/notes', notes);
 
 // Get
 users.get('/', (req, res) => {
@@ -45,8 +48,8 @@ users.get('/:userId', (req, res) => {
 
 // Post
 users.post('/', (req, res) => {
-    let name = req.body.name;
-    let firstName = req.body.firstName;
+    let name = String(req.body.name).trim();
+    let firstName = String(req.body.firstName).trim();
 
     if (!name) {
         res.status(400).json({error: "Naam is verplicht!"});
@@ -80,8 +83,8 @@ users.post('/', (req, res) => {
 // Put
 users.put('/:userId', (req, res) => {
     let userId = parseInt(req.params.userId);
-    let name = req.body.name;
-    let firstName = req.body.firstName;
+    let name = String(req.body.name).trim();
+    let firstName = String(req.body.firstName).trim();
 
     if (!userId) {
         res.status(400).json({error: "Parameter userId is verplicht (users/x)"});
